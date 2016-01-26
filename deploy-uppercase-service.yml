@@ -1,0 +1,15 @@
+---
+- hosts: test
+  tasks:
+
+  - name: Install nodejs package
+    apt: name=nodejs update_cache=yes
+
+  - name: Install git client
+    apt: name=git
+
+  - name: Install uppercase-service
+    shell: cd /tmp && rm -rf /tmp/uppercase-service && git clone https://github.com/fork1983/uppercase-service && cp -f /tmp/uppercase-service/serv.js /usr/local/sbin && cp -f /tmp/uppercase-service/uppercase-service /etc/init.d && chmod +x /etc/init.d/uppercase-service && systemctl enable uppercase-service.service && rm -rf /tmp/uppercase-service
+
+  - name: Run uppercase-service
+    service: name=uppercase-service state=started
